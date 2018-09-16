@@ -2,25 +2,22 @@ package services
 
 import akka.actor.ActorSystem
 import com.google.inject.Inject
+import play.api.Configuration
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
-class CodeBlockTask @Inject()(actorSystem: ActorSystem, checkingMails: CheckingMails)(implicit executionContext: ExecutionContext) {
+class CodeBlockTask @Inject()(config: Configuration,actorSystem: ActorSystem, checkingMails: CheckingMails)(implicit executionContext: ExecutionContext) {
+
+  val host = config.get[String]("mail.host")
+  val storeType = config.get[String]("mail.storeType")
+  val userName = config.get[String]("mail.userName")
+  val password = config.get[String]("mail.password")
+
 
   actorSystem.scheduler.schedule(initialDelay = 2.seconds, interval = 5.second) {
     // the block of code that will be executed
     println("Executing something...")
-    System.out.println("test")
-    printBar()
-  }
-
-
-  def printBar(): Unit = {
-    val host = "pop.gmail.com"
-    val storeType = "pop3s"
-    val userName = ""
-    val password = ""
 
     checkingMails.check(host, storeType, userName, password)
   }

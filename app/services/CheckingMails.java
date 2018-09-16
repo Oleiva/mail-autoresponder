@@ -1,16 +1,31 @@
 package services;
 
+
+
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.mail.*;
 import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.logging.Logger;
 
 /**
  * https://stackoverflow.com/questions/28417037/reading-email-from-gmail-is-not-working
  */
 public class CheckingMails {
 
+
+        private String hostPrice;
+
+//    @Inject
+//    public CheckingMails(@Named("host-price") String hostPrice) {
+//        this.hostPrice = hostPrice;
+//    }
+
     public  void check(String host, String storeType, final String userName, final String password) {
+//        play.Logger.error("hostPrice "+hostPrice);
+
         try {
             // create properties field
             Properties properties = new Properties();
@@ -39,7 +54,7 @@ public class CheckingMails {
             // retrieve the messages from the folder in an array and print it
             Message[] messages = emailFolder.getMessages();
             System.out.println("messages.length---" + messages.length);
-            CheckingMails checkingMails = new CheckingMails();
+//            CheckingMails checkingMails = new CheckingMails();
 
             for (int i = 0, n = messages.length; i < n; i++) {
                 Message message = messages[i];
@@ -50,7 +65,7 @@ public class CheckingMails {
                 System.out.println("From: " + message.getFrom()[0]);
 //                System.out.println("Text: " + message.getContent().toString());
 
-                System.out.println(checkingMails.getTextFromMessage(message));
+                System.out.println(getTextFromMessage(message));
 
 
 
